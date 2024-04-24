@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Add new prey</title>
+<title>Add new lego</title>
 <script>
 function sendData(){
 	//Create a new Javascript object
@@ -20,9 +20,9 @@ function sendData(){
 	  }
 	};
 	
-	xhttp.open("POST","../rest/lego/getvalues",true);
+	xhttp.open("POST","../rest/lego/setvalues",true);
 	xhttp.setRequestHeader("Content-type","application/json");
-	xhttp.send(jsonPrey);
+	xhttp.send(jsonLego);
  
 	
 }
