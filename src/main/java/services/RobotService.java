@@ -21,17 +21,33 @@ public class RobotService {
 	EntityManagerFactory emf=Persistence.createEntityManagerFactory("lego");
 	
 	
+	
 	@Path("/setvalues")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public LegoSetting setValues(LegoSetting ls) {
+		System.out.println("hello from server");
 		System.out.println(ls);
 	    EntityManager em=emf.createEntityManager();
-	    em.getTransaction().begin();
-	    em.merge(ls);
-	    em.getTransaction().commit();		
+	    try {
+	    	em.getTransaction().begin();
+		    em.persist(ls);
+		    em.getTransaction().commit();	
+		    System.out.println("value added");
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	if (em.getTransaction().isActive()) {
+	            em.getTransaction().rollback(); // Rollback the transaction if an exception occurs
+	        }
+	    }finally {
+	        em.close(); // Close the EntityManager in the finally block to release resources
+	    }
+	    	
 		return ls;
+		
+		
+		
 	}
 	
 	@Path("/getvalues")

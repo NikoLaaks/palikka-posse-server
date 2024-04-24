@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <title>Add new lego</title>
 <script>
-function sendData(){
+function sendData(form){
 	//Create a new Javascript object
 	var lego=new Object();
-	lego.colorValue=document.getElementById("color-value").value;
+	lego.colorvalue=form.colorvalue.value;
 	
 	var jsonLego=JSON.stringify(lego);
 	var xhttp = new XMLHttpRequest();
@@ -32,8 +32,8 @@ function sendData(){
 <body>
 <h2>Fill in - this form uses AJAX</h2>
 <form action="#" method='post' onsubmit='return false;'>
-Color Value: <input id='color-value' type='text' name='color-value' value='' placeholder='New color value'><br>
-<input type='button' name='ok' value='Send' onclick='sendData();'><br>
+Color Value: <input id='color-value' type='text' name='colorvalue' value='' placeholder='New color value'><br>
+<input type='button' name='ok' value='Send' onclick='sendData(this.form);'><br>
 </form>
 <p id='responseView'>The response will be shown here!
 </p>
