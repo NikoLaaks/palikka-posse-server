@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Add new prey</title>
+<script>
+function sendData(){
+	//Create a new Javascript object
+	var lego=new Object();
+	lego.colorValue=document.getElementById("color-value").value;
+	
+	var jsonLego=JSON.stringify(lego);
+	var xhttp = new XMLHttpRequest();
+	
+	xhttp.onreadystatechange = function() {
+	  if (this.readyState == 4 && this.status == 200) {
+	   document.getElementById("responseView").innerHTML = this.responseText;
+	   var returned=JSON.parse(this.responseText);
+	   document.getElementById("inparts").innerHTML="ID="+returned.id+" Color value="+returned.colorvalue+" Timestamp="+returned.time;
+	  }
+	};
+	
+	xhttp.open("POST","../rest/lego/getvalues",true);
+	xhttp.setRequestHeader("Content-type","application/json");
+	xhttp.send(jsonPrey);
+ 
+	
+}
+</script>
+</head>
+
+<body>
+<h2>Fill in - this form uses AJAX</h2>
+<form action="#" method='post' onsubmit='return false;'>
+Color Value: <input id='color-value' type='text' name='color-value' value='' placeholder='New color value'><br>
+<input type='button' name='ok' value='Send' onclick='sendData();'><br>
+</form>
+<p id='responseView'>The response will be shown here!
+</p>
+<p id='inparts'>The response in parts will be shown here!
+</p>
+</body>
+</html>
