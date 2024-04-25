@@ -64,7 +64,7 @@ public class LegoSetting {
 	}
 	
 	public int getMotorapower() {
-		return motorbpower;
+		return motorapower;
 	}
 
 	public void setMotorapower(int motorAPower) {

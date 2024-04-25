@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <title>Add new lego</title>
 <script>
+var latestResponse = "";
 function sendData(form){
 	//Create a new Javascript object
 	var lego=new Object();
 	lego.colorvalue=form.colorvalue.value;
-	lego.motorapower = form['motor-a-power'].value;
-	lego.motorbpower = form['motor-b-power'].value;
+	lego.motorapower = form.motorapower.value;
+	lego.motorbpower = form.motorbpower.value;
 	
 	var jsonLego=JSON.stringify(lego);
 	var xhttp = new XMLHttpRequest();
@@ -17,6 +18,7 @@ function sendData(form){
 	xhttp.onreadystatechange = function() {
 	  if (this.readyState == 4 && this.status == 200) {
 	   document.getElementById("responseView").innerHTML = this.responseText;
+	   latestResponse = JSON.parse(this.responseText);
 	   var returned=JSON.parse(this.responseText);
 	   document.getElementById("inparts").innerHTML="ID="+returned.id+" Color value="+returned.colorvalue+" Timestamp="+returned.time;
 	  }
@@ -28,20 +30,91 @@ function sendData(form){
  
 	
 }
+
+function setPower(motorAPower, motorBPower) {
+	//Create a new Javascript object
+ 	var lego=new Object();
+	//lego.colorvalue=form.colorvalue.value;
+	lego.motorapower = motorAPower;
+	lego.motorbpower = motorBPower;
+	
+	var jsonLego=JSON.stringify(lego);
+	var xhttp = new XMLHttpRequest();
+	
+	xhttp.onreadystatechange = function() {
+	  if (this.readyState == 4 && this.status == 200) {
+	   document.getElementById("responseView").innerHTML = this.responseText;
+	   var returned=JSON.parse(this.responseText);
+	   latestResponse = JSON.parse(this.responseText);
+	   document.getElementById("inparts").innerHTML="ID="+returned.id+" Color value="+returned.colorvalue+" Timestamp="+returned.time;
+	   console.log(latestResponse)
+	  }
+	};
+	
+ 	xhttp.open("POST","../rest/lego/setvalues",true);
+	xhttp.setRequestHeader("Content-type","application/json");
+	xhttp.send(jsonLego);
+ 
+	
+}
+</script>
+<script>
+
+
+window.addEventListener("DOMContentLoaded", (event) => {
+	const input = document.getElementById("page");
+	input.addEventListener("keypress", checkKey);
+});
+
+
+function checkKey(e) {
+	if (e.code == "KeyW") {
+		if (latestResponse.motorapower == latestResponse.motorbpower) {
+			const newMotorAPower = latestResponse.motorapower + 10;
+			const newMotorBPower = latestResponse.motorbpower + 10;
+			setPower(newMotorAPower, newMotorBPower);
+		} else if (latestResponse.motorapower != latestResponse.motorbpower) {
+			const average = (latestResponse.motorapower + latestResponse.motorbpower) / 2;
+			setPower(average, average)
+		}
+		
+	}
+	
+	if (e.code == "KeyS") {
+		const newMotorAPower = latestResponse.motorapower - 10;
+		const newMotorBPower = latestResponse.motorbpower - 10;
+		setPower(newMotorAPower, newMotorBPower);
+	}
+	
+	if (e.code == "KeyA") {
+		const newMotorAPower = latestResponse.motorapower - 5;
+		const newMotorBPower = latestResponse.motorbpower + 5;
+		setPower(newMotorAPower, newMotorBPower);
+	}
+	
+	if (e.code == "KeyD") {
+		const newMotorAPower = latestResponse.motorapower + 5;
+		const newMotorBPower = latestResponse.motorbpower - 5;
+		setPower(newMotorAPower, newMotorBPower);
+	}
+	//log.textContent += ` ${e.code}`;
+}
 </script>
 </head>
 
-<body>
+<body id="page">
 <h2>Fill in - this form uses AJAX</h2>
 <form action="#" method='post' onsubmit='return false;'>
 Color Value: <input id='color-value' type='text' name='colorvalue' value='' placeholder='New color value'><br>
 MotorA Power: <input id='motor-a-power' type='text' name='motorapower' value='' placeholder='New motorA value'><br>
 MotorB Power: <input id='motor-b-power' type='text' name='motorbpower' value='' placeholder='New motorB value'><br>
+Test: <input type='text' name='text' id='sample'>
 <input type='button' name='ok' value='Send' onclick='sendData(this.form);'><br>
 </form>
 <p id='responseView'>The response will be shown here!
 </p>
 <p id='inparts'>The response in parts will be shown here!
 </p>
+<p id="log"></p>
 </body>
 </html>
