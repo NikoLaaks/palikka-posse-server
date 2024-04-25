@@ -8,6 +8,8 @@ function sendData(form){
 	//Create a new Javascript object
 	var lego=new Object();
 	lego.colorvalue=form.colorvalue.value;
+	lego.motorapower = form['motor-a-power'].value;
+	lego.motorbpower = form['motor-b-power'].value;
 	
 	var jsonLego=JSON.stringify(lego);
 	var xhttp = new XMLHttpRequest();
@@ -33,6 +35,8 @@ function sendData(form){
 <h2>Fill in - this form uses AJAX</h2>
 <form action="#" method='post' onsubmit='return false;'>
 Color Value: <input id='color-value' type='text' name='colorvalue' value='' placeholder='New color value'><br>
+MotorA Power: <input id='motor-a-power' type='text' name='motorapower' value='' placeholder='New motorA value'><br>
+MotorB Power: <input id='motor-b-power' type='text' name='motorbpower' value='' placeholder='New motorB value'><br>
 <input type='button' name='ok' value='Send' onclick='sendData(this.form);'><br>
 </form>
 <p id='responseView'>The response will be shown here!
