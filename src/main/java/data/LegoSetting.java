@@ -21,17 +21,22 @@ public class LegoSetting {
 	private double colorvalue;
 	@Column(name="TIME")
 	private java.sql.Timestamp time = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
-	
-	
+	@Column(name="MOTORAPOWER")
+	private int motorapower;
+	@Column(name="MOTORBPOWER")
+	private int motorbpower;
+
 	public LegoSetting() {
 		super();
 	}
 	
-	public LegoSetting(int id, float colorvalue, Timestamp time) {
+	public LegoSetting(int id, float colorvalue, Timestamp time, int motorapower, int motorbpower) {
 		super();
 		this.id = id;
 		this.colorvalue = colorvalue;
 		this.time = time;
+		this.motorapower = motorapower;
+		this.motorbpower = motorbpower;
 	}
 
 	public int getId() {
@@ -56,6 +61,22 @@ public class LegoSetting {
 
 	public void setTime(java.sql.Timestamp time) {
 		this.time = time;
+	}
+	
+	public int getMotorapower() {
+		return motorapower;
+	}
+
+	public void setMotorapower(int motorAPower) {
+		this.motorapower = motorAPower;
+	}
+
+	public int getMotorbpower() {
+		return motorbpower;
+	}
+
+	public void setMotorbpower(int motorBPower) {
+		this.motorbpower = motorBPower;
 	}
 	
 	@Override
