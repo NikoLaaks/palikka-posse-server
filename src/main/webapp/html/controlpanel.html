@@ -116,5 +116,16 @@ Test: <input type='text' name='text' id='sample'>
 <p id='inparts'>The response in parts will be shown here!
 </p>
 <p id="log"></p>
+
+
+
+<h1>Select file to upload to the root of server project</h1>
+<form action="/rest/uploadservice/fileupload" method="post" enctype="multipart/form-data">
+    Select a file : <input type="file" name="file" accept=".wav" /><br>
+    <input type="submit" value="Upload" />
+</form>
+
+
+
 </body>
 </html>
