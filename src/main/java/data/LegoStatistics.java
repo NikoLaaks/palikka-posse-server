@@ -10,6 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
+/*
+ * This class needs to be "copy" of robot side "DataToDatabase" class
+ * Meaning same variables with same names for jpa to work
+ */
+
 @Entity
 @Table(name="LEGOSTATISTICS")
 public class LegoStatistics {
@@ -22,17 +28,22 @@ public class LegoStatistics {
 	private int on_line_time;
 	
 	@Column(name="BATTERY_VOLTAGE")
-	private float battery_voltage;
+	private double battery_voltage;
 	
 	@Column(name="TIME")
 	private java.sql.Timestamp time = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
+	
 
-	public LegoStatistics(int id, int on_line_time, float battery_voltage, Timestamp time) {
+	public LegoStatistics(int id, int on_line_time, double battery_voltage, Timestamp time) {
 		super();
 		this.id = id;
 		this.on_line_time = on_line_time;
 		this.battery_voltage = battery_voltage;
 		this.time = time;
+	}
+
+	public LegoStatistics() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getId() {
@@ -51,12 +62,12 @@ public class LegoStatistics {
 		this.on_line_time = on_line_time;
 	}
 
-	public float getBattery_voltage() {
+	public double getBattery_voltage() {
 		return battery_voltage;
 	}
 
-	public void setBattery_voltage(float battery_voltage) {
-		this.battery_voltage = battery_voltage;
+	public void setBattery_voltage(double d) {
+		this.battery_voltage = d;
 	}
 
 	public java.sql.Timestamp getTime() {
