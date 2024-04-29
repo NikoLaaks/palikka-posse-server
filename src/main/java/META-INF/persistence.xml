@@ -8,6 +8,7 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org
 	<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <!-- Other configuration elements -->
     <class>data.LegoSetting</class>
+    <class>data.LegoStatistics</class>
 <!-- All the classes, which belong to the peristence unit and so can be persisted using JPA
 	Here there is just one: app.Fish. All the other should be added in the same way. -->	
 	

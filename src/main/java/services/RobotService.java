@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import data.LegoSetting;
+import data.LegoStatistics;
 
 @Path("/lego")
 public class RobotService {
@@ -60,6 +61,18 @@ public class RobotService {
 		List<LegoSetting> list=((javax.persistence.Query) q).getResultList();
 		em.getTransaction().commit();		
 		return list.get(0);
+	}
+	@Path("/sendstatistics")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public LegoStatistics sendData(LegoStatistics statistics) {
+		System.out.println(statistics);
+	    EntityManager em=emf.createEntityManager();
+	    em.getTransaction().begin();
+	    em.merge(statistics);
+	    em.getTransaction().commit();		
+		return statistics;
 	}
 }
 	
