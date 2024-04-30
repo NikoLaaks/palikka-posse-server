@@ -5,6 +5,7 @@ import java.util.List;
 //import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.ws.rs.Consumes;
@@ -28,11 +29,33 @@ public class RobotService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public LegoSetting setValues(LegoSetting ls) {
-		System.out.println("hello from server");
-		System.out.println(ls);
+		
+		
 	    EntityManager em=emf.createEntityManager();
+	    LegoSetting lastRow = null;
 	    try {
 	    	em.getTransaction().begin();
+	    	
+	    	// Fetch the last row from legosetting table
+	        Query query = em.createQuery("SELECT l FROM LegoSetting l ORDER BY l.id DESC")
+	                         .setMaxResults(1);
+	        try {
+	        	lastRow = (LegoSetting) query.getSingleResult();
+	        }catch(NoResultException e){
+	        	System.out.println("Table is empty");
+	        }
+	        
+	        
+	        // Copy values from last row to ls object if not provided
+	        
+	        if (lastRow != null) {
+	            if (ls.getColorvalue() == 0) {
+	                ls.setColorvalue(lastRow.getColorvalue());
+	            }
+	            
+	            // Copy other fields as needed
+	        }
+	    	
 		    em.persist(ls);
 		    em.getTransaction().commit();	
 		    System.out.println("value added");
@@ -73,6 +96,18 @@ public class RobotService {
 	    em.merge(statistics);
 	    em.getTransaction().commit();		
 		return statistics;
+	}
+	
+	@Path("/getstatistics")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public LegoStatistics getStatistics() {
+	    EntityManager em=emf.createEntityManager();
+	    em.getTransaction().begin();
+		Query q=(Query) em.createQuery("select s from LegoStatistics s order by s.id desc").setMaxResults(1);
+		List<LegoStatistics> list=((javax.persistence.Query) q).getResultList();
+		em.getTransaction().commit();		
+		return list.get(0);
 	}
 }
 	
