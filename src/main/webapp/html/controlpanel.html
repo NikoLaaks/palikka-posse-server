@@ -11,6 +11,7 @@ function sendData(form){
 	lego.colorvalue=form.colorvalue.value;
 	lego.motorapower = form.motorapower.value;
 	lego.motorbpower = form.motorbpower.value;
+	lego.manualmode = document.getElementById("manual-mode").checked;
 	
 	var jsonLego=JSON.stringify(lego);
 	var xhttp = new XMLHttpRequest();
@@ -21,6 +22,11 @@ function sendData(form){
 	   latestResponse = JSON.parse(this.responseText);
 	   var returned=JSON.parse(this.responseText);
 	   document.getElementById("inparts").innerHTML="ID="+returned.id+" Color value="+returned.colorvalue+" Timestamp="+returned.time;
+	   document.getElementById("legoID").innerText = "ID: " + returned.id;
+       document.getElementById("colorValue").innerText = "Color Value: " + returned.colorvalue;
+       document.getElementById("motorAPower").innerText = "MotorA Power: " + returned.motorapower;
+       document.getElementById("motorBPower").innerText = "MotorB Power: " + returned.motorbpower;
+       document.getElementById("manualMode").innerText = "Manual Mode: " + (returned.manualmode ? "Enabled" : "Disabled");
 	  }
 	};
 	
@@ -37,6 +43,7 @@ function setPower(motorAPower, motorBPower) {
 	//lego.colorvalue=form.colorvalue.value;
 	lego.motorapower = motorAPower;
 	lego.motorbpower = motorBPower;
+	lego.manualmode = latestResponse.manualmode;
 	
 	var jsonLego=JSON.stringify(lego);
 	var xhttp = new XMLHttpRequest();
@@ -47,6 +54,11 @@ function setPower(motorAPower, motorBPower) {
 	   var returned=JSON.parse(this.responseText);
 	   latestResponse = JSON.parse(this.responseText);
 	   document.getElementById("inparts").innerHTML="ID="+returned.id+" Color value="+returned.colorvalue+" Timestamp="+returned.time;
+	   document.getElementById("legoID").innerText = "ID: " + returned.id;
+       document.getElementById("colorValue").innerText = "Color Value: " + returned.colorvalue;
+       document.getElementById("motorAPower").innerText = "MotorA Power: " + returned.motorapower;
+       document.getElementById("motorBPower").innerText = "MotorB Power: " + returned.motorbpower;
+       document.getElementById("manualMode").innerText = "Manual Mode: " + (returned.manualmode ? "Enabled" : "Disabled");
 	   console.log(latestResponse)
 	  }
 	};
@@ -99,6 +111,33 @@ function checkKey(e) {
 	}
 	//log.textContent += ` ${e.code}`;
 }
+
+//Reading data from database
+function fetchStatistics() {
+    // Make an AJAX request to fetch statistics from the server
+    fetch('http://localhost:8080/rest/lego/getstatistics')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            // Update HTML elements with the received statistics
+            document.getElementById('batteryVoltage').innerText = data.battery_voltage;
+            var onLineTimeInSeconds = data.on_line_time / 1000;
+            document.getElementById('onlineTime').innerText = onLineTimeInSeconds;
+            // Add more lines to update other statistics as needed
+            
+        })
+        .catch(function(error) {
+            console.error('Error fetching statistics:', error);
+        });
+}
+
+// Fetch statistics initially when the page loads
+window.onload = function() {
+    fetchStatistics();
+    // Fetch statistics every 5 seconds (for example)
+    setInterval(fetchStatistics, 1000);
+};
 </script>
 </head>
 
@@ -108,6 +147,7 @@ function checkKey(e) {
 Color Value: <input id='color-value' type='text' name='colorvalue' value='' placeholder='New color value'><br>
 MotorA Power: <input id='motor-a-power' type='text' name='motorapower' value='' placeholder='New motorA value'><br>
 MotorB Power: <input id='motor-b-power' type='text' name='motorbpower' value='' placeholder='New motorB value'><br>
+Manual Mode: <input id='manual-mode' type='checkbox' name='manualmode'><br>
 Test: <input type='text' name='text' id='sample'>
 <input type='button' name='ok' value='Send' onclick='sendData(this.form);'><br>
 </form>
@@ -115,6 +155,14 @@ Test: <input type='text' name='text' id='sample'>
 </p>
 <p id='inparts'>The response in parts will be shown here!
 </p>
+<p id="legoID"></p>
+<p id="colorValue"></p>
+<p id="motorAPower"></p>
+<p id="motorBPower"></p>
+<p id="manualMode"></p>
 <p id="log"></p>
+<h1>Robot Statistics</h1>
+<p>Battery Voltage: <span id="batteryVoltage"></span></p>
+<p>On Line Time in seconds: <span id="onlineTime"></span></p>
 </body>
 </html>

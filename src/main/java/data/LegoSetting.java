@@ -25,6 +25,8 @@ public class LegoSetting {
 	private int motorapower;
 	@Column(name="MOTORBPOWER")
 	private int motorbpower;
+	@Column(name="MANUALMODE")
+	private boolean manualmode;
 
 	public LegoSetting() {
 		super();
@@ -79,6 +81,15 @@ public class LegoSetting {
 		this.motorbpower = motorBPower;
 	}
 	
+	
+	public boolean isManualmode() {
+		return manualmode;
+	}
+
+	public void setManualmode(boolean manualmode) {
+		this.manualmode = manualmode;
+	}
+
 	@Override
 	public String toString() {
 		return id+"#"+colorvalue+"#"+time;

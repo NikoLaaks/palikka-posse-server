@@ -28,7 +28,7 @@ public class LegoStatistics {
 	private int on_line_time;
 	
 	@Column(name="BATTERY_VOLTAGE")
-	private double battery_voltage;
+	private double battery_voltage; 
 	
 	@Column(name="TIME")
 	private java.sql.Timestamp time = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
