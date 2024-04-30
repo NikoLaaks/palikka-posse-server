@@ -11,6 +11,8 @@ function sendData(form){
 	lego.colorvalue=form.colorvalue.value;
 	lego.motorapower = form.motorapower.value;
 	lego.motorbpower = form.motorbpower.value;
+	lego.distancevalue = form.distancevalue.value;
+
 	
 	var jsonLego=JSON.stringify(lego);
 	var xhttp = new XMLHttpRequest();
@@ -20,7 +22,7 @@ function sendData(form){
 	   document.getElementById("responseView").innerHTML = this.responseText;
 	   latestResponse = JSON.parse(this.responseText);
 	   var returned=JSON.parse(this.responseText);
-	   document.getElementById("inparts").innerHTML="ID="+returned.id+" Color value="+returned.colorvalue+" Timestamp="+returned.time;
+	   document.getElementById("inparts").innerHTML="ID="+returned.id+" Color value="+returned.colorvalue+" Timestamp="+returned.time+ " Distance value="+returned.distancevalue;
 	  }
 	};
 	
@@ -106,6 +108,7 @@ function checkKey(e) {
 <h2>Fill in - this form uses AJAX</h2>
 <form action="#" method='post' onsubmit='return false;'>
 Color Value: <input id='color-value' type='text' name='colorvalue' value='' placeholder='New color value'><br>
+Distance Value: <input id='distance-value' type='text' name='distancevalue' value='' placeholder='New distance value'><br>
 MotorA Power: <input id='motor-a-power' type='text' name='motorapower' value='' placeholder='New motorA value'><br>
 MotorB Power: <input id='motor-b-power' type='text' name='motorbpower' value='' placeholder='New motorB value'><br>
 Test: <input type='text' name='text' id='sample'>

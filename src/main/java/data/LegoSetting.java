@@ -19,6 +19,8 @@ public class LegoSetting {
 	private int id;
 	@Column(name="COLORVALUE")
 	private double colorvalue;
+	@Column(name="DISTANCEVALUE")
+    private double distancevalue;
 	@Column(name="TIME")
 	private java.sql.Timestamp time = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
 	@Column(name="MOTORAPOWER")
@@ -30,10 +32,11 @@ public class LegoSetting {
 		super();
 	}
 	
-	public LegoSetting(int id, float colorvalue, Timestamp time, int motorapower, int motorbpower) {
+	public LegoSetting(int id, float colorvalue, double distancevalue, Timestamp time, int motorapower, int motorbpower) {
 		super();
 		this.id = id;
 		this.colorvalue = colorvalue;
+		this.distancevalue = distancevalue;
 		this.time = time;
 		this.motorapower = motorapower;
 		this.motorbpower = motorbpower;
@@ -53,6 +56,14 @@ public class LegoSetting {
 
 	public void setColorvalue(double colorvalue) {
 		this.colorvalue = colorvalue;
+	}
+	
+	public double getDistancevalue() {
+	        return distancevalue;
+	}
+
+	public void setDistancevalue(double distancevalue) {
+	        this.distancevalue = distancevalue;
 	}
 
 	public java.sql.Timestamp getTime() {
