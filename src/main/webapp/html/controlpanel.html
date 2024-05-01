@@ -66,8 +66,6 @@ function sendData(form){
 	//Create a new Javascript object
 	var lego=new Object();
 	lego.colorvalue=form.colorvalue.value;
-	lego.motorapower = form.motorapower.value;
-	lego.motorbpower = form.motorbpower.value;
 	lego.manualmode = document.getElementById("manual-mode").checked;
 	
 	var jsonLego=JSON.stringify(lego);
@@ -203,8 +201,6 @@ window.onload = function() {
 <h2>Fill in - this form uses AJAX</h2>
 <form action="#" method='post' onsubmit='return false;'>
 Color Value: <input id='color-value' type='text' name='colorvalue' value='' placeholder='New color value'><br>
-MotorA Power: <input id='motor-a-power' type='text' name='motorapower' value='' placeholder='New motorA value'><br>
-MotorB Power: <input id='motor-b-power' type='text' name='motorbpower' value='' placeholder='New motorB value'><br>
 Manual Mode: <input id='manual-mode' type='checkbox' name='manualmode'><br>
 Test: <input type='text' name='text' id='sample'>
 <input type='button' name='ok' value='Send' onclick='sendData(this.form);'><br>
@@ -220,6 +216,7 @@ Test: <input type='text' name='text' id='sample'>
 <p id="manualMode"></p>
 <p id="log"></p>
 <h1>Robot Statistics</h1>
+
 
 <p>On Line Time in seconds: <span id="onlineTime"></span></p>
 <p>Distance to obstacle in cm: <span id="obstacleDistance"></span></p>
