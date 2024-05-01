@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+// This class is for data that robot uses to operate
 @Entity
 @Table(name="LEGOSETTING")
 public class LegoSetting {

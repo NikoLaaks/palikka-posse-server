@@ -8,6 +8,9 @@ import javax.persistence.Persistence;
 import data.LegoSetting;
 import data.LegoStatistics;
 
+/*
+ * This class was only for testing jpa before there was any html interface
+*/
 public class JpaTest {
     private static final String PERSISTENCE_UNIT_NAME = "lego"; // Change to your persistence unit name
 

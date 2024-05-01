@@ -16,6 +16,7 @@ import javax.persistence.Table;
  * Meaning same variables with same names for jpa to work
  */
 
+// This class is for data that is sent from robot to server
 @Entity
 @Table(name="LEGOSTATISTICS")
 public class LegoStatistics {
