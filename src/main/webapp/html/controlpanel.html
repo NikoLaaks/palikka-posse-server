@@ -193,7 +193,7 @@ function fetchStatistics() {
 // Fetch statistics initially when the page loads
 window.onload = function() {
     fetchStatistics();
-    // Fetch statistics every 5 seconds (for example)
+    // Fetch statistics every second (for example)
     setInterval(fetchStatistics, 1000);
 };
 </script>
@@ -204,7 +204,7 @@ window.onload = function() {
 <form action="#" method='post' onsubmit='return false;'>
 Color Value: <input id='color-value' type='text' name='colorvalue' value='' placeholder='New color value'><br>
 Manual Mode: <input id='manual-mode' type='checkbox' name='manualmode'><br>
-Test: <input type='text' name='text' id='sample'>
+
 <input type='button' name='ok' value='Send' onclick='sendData(this.form);'><br>
 </form>
 <p id='responseView'>
