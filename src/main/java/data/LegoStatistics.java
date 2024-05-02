@@ -16,6 +16,7 @@ import javax.persistence.Table;
  * Meaning same variables with same names for jpa to work
  */
 
+// This class is for data that is sent from robot to server
 @Entity
 @Table(name="LEGOSTATISTICS")
 public class LegoStatistics {
@@ -29,6 +30,9 @@ public class LegoStatistics {
 	
 	@Column(name="BATTERY_VOLTAGE")
 	private double battery_voltage; 
+	
+	@Column(name="OBSTACLE_DISTANCE")
+	private int obstacle_distance;
 	
 	@Column(name="TIME")
 	private java.sql.Timestamp time = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
@@ -76,6 +80,15 @@ public class LegoStatistics {
 
 	public void setTime(java.sql.Timestamp time) {
 		this.time = time;
+	}
+	
+
+	public int getObstacle_distance() {
+		return obstacle_distance;
+	}
+
+	public void setObstacle_distance(int obstacle_distance) {
+		this.obstacle_distance = obstacle_distance;
 	}
 
 	@Override

@@ -3,14 +3,71 @@
 <head>
 <meta charset="utf-8">
 <title>Add new lego</title>
+<style>
+	body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: #f0f0f0;
+	}
+	
+	#page {
+	    max-width: 600px;
+	    margin: 0 auto;
+	    padding: 20px;
+	    background-color: #fff;
+	    border-radius: 8px;
+	    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}
+	
+	h1, h2 {
+	    color: #333;
+	}
+	
+	form {
+	    margin-bottom: 20px;
+	}
+	
+	input[type='text'], input[type='checkbox'], input[type='button'] {
+	    margin-bottom: 10px;
+	    padding: 8px;
+	    width: 100%;
+	    box-sizing: border-box;
+	}
+	
+	input[type='button'] {
+	    background-color: #4CAF50;
+	    color: white;
+	    border: none;
+	    cursor: pointer;
+	}
+	
+	input[type='button']:hover {
+	    background-color: #45a049;
+	}
+	
+	#responseView {
+	    margin-top: 20px;
+	}
+	
+	#inparts, #legoID, #colorValue, #motorAPower, #motorBPower, #manualMode, #log {
+	    margin-top: 20px;
+	    font-weight: bold;
+	}
+	
+	span {
+	    color: #007bff;
+	}
+	
+</style>
 <script>
 var latestResponse = "";
+
+// Function for getting data from html form and sending it to server
 function sendData(form){
 	//Create a new Javascript object
 	var lego=new Object();
 	lego.colorvalue=form.colorvalue.value;
-	lego.motorapower = form.motorapower.value;
-	lego.motorbpower = form.motorbpower.value;
 	lego.manualmode = document.getElementById("manual-mode").checked;
 	
 	var jsonLego=JSON.stringify(lego);
@@ -18,10 +75,10 @@ function sendData(form){
 	
 	xhttp.onreadystatechange = function() {
 	  if (this.readyState == 4 && this.status == 200) {
-	   document.getElementById("responseView").innerHTML = this.responseText;
+	   //document.getElementById("responseView").innerHTML = this.responseText;
 	   latestResponse = JSON.parse(this.responseText);
 	   var returned=JSON.parse(this.responseText);
-	   document.getElementById("inparts").innerHTML="ID="+returned.id+" Color value="+returned.colorvalue+" Timestamp="+returned.time;
+	   //document.getElementById("inparts").innerHTML="ID="+returned.id+" Color value="+returned.colorvalue+" Timestamp="+returned.time;
 	   document.getElementById("legoID").innerText = "ID: " + returned.id;
        document.getElementById("colorValue").innerText = "Color Value: " + returned.colorvalue;
        document.getElementById("motorAPower").innerText = "MotorA Power: " + returned.motorapower;
@@ -50,10 +107,10 @@ function setPower(motorAPower, motorBPower) {
 	
 	xhttp.onreadystatechange = function() {
 	  if (this.readyState == 4 && this.status == 200) {
-	   document.getElementById("responseView").innerHTML = this.responseText;
+	   //document.getElementById("responseView").innerHTML = this.responseText;
 	   var returned=JSON.parse(this.responseText);
 	   latestResponse = JSON.parse(this.responseText);
-	   document.getElementById("inparts").innerHTML="ID="+returned.id+" Color value="+returned.colorvalue+" Timestamp="+returned.time;
+	   //document.getElementById("inparts").innerHTML="ID="+returned.id+" Color value="+returned.colorvalue+" Timestamp="+returned.time;
 	   document.getElementById("legoID").innerText = "ID: " + returned.id;
        document.getElementById("colorValue").innerText = "Color Value: " + returned.colorvalue;
        document.getElementById("motorAPower").innerText = "MotorA Power: " + returned.motorapower;
@@ -115,15 +172,16 @@ function checkKey(e) {
 //Reading data from database
 function fetchStatistics() {
     // Make an AJAX request to fetch statistics from the server
-    fetch('http://192.168.1.11:8080/rest/lego/getstatistics')
+    fetch('http://192.168.1.187:8080/rest/lego/getstatistics')
         .then(function(response) {
             return response.json();
         })
         .then(function(data) {
             // Update HTML elements with the received statistics
-            document.getElementById('batteryVoltage').innerText = data.battery_voltage;
+           
             var onLineTimeInSeconds = data.on_line_time / 1000;
             document.getElementById('onlineTime').innerText = onLineTimeInSeconds;
+            document.getElementById('obstacleDistance').innerText = data.obstacle_distance;
             // Add more lines to update other statistics as needed
             
         })
@@ -135,7 +193,7 @@ function fetchStatistics() {
 // Fetch statistics initially when the page loads
 window.onload = function() {
     fetchStatistics();
-    // Fetch statistics every 5 seconds (for example)
+    // Fetch statistics every second (for example)
     setInterval(fetchStatistics, 1000);
 };
 </script>
@@ -145,15 +203,13 @@ window.onload = function() {
 <h2>Fill in - this form uses AJAX</h2>
 <form action="#" method='post' onsubmit='return false;'>
 Color Value: <input id='color-value' type='text' name='colorvalue' value='' placeholder='New color value'><br>
-MotorA Power: <input id='motor-a-power' type='text' name='motorapower' value='' placeholder='New motorA value'><br>
-MotorB Power: <input id='motor-b-power' type='text' name='motorbpower' value='' placeholder='New motorB value'><br>
 Manual Mode: <input id='manual-mode' type='checkbox' name='manualmode'><br>
-Test: <input type='text' name='text' id='sample'>
+
 <input type='button' name='ok' value='Send' onclick='sendData(this.form);'><br>
 </form>
-<p id='responseView'>The response will be shown here!
+<p id='responseView'>
 </p>
-<p id='inparts'>The response in parts will be shown here!
+<p id='inparts'>
 </p>
 <p id="legoID"></p>
 <p id="colorValue"></p>
@@ -162,7 +218,9 @@ Test: <input type='text' name='text' id='sample'>
 <p id="manualMode"></p>
 <p id="log"></p>
 <h1>Robot Statistics</h1>
-<p>Battery Voltage: <span id="batteryVoltage"></span></p>
+
+
 <p>On Line Time in seconds: <span id="onlineTime"></span></p>
+<p>Distance to obstacle in cm: <span id="obstacleDistance"></span></p>
 </body>
 </html>

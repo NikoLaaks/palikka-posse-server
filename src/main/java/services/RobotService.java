@@ -23,7 +23,7 @@ public class RobotService {
 	EntityManagerFactory emf=Persistence.createEntityManagerFactory("lego");
 	
 	
-	
+	// Sending values to database that robot uses when operating
 	@Path("/setvalues")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -47,6 +47,7 @@ public class RobotService {
 	        
 	        
 	        // Copy values from last row to ls object if not provided
+	        // so it doesn't change to 0 when only motor values are given
 	        
 	        if (lastRow != null) {
 	            if (ls.getColorvalue() == 0) {
@@ -74,6 +75,7 @@ public class RobotService {
 		
 	}
 	
+	// Getting values from database that robot uses for operating
 	@Path("/getvalues")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -85,6 +87,8 @@ public class RobotService {
 		em.getTransaction().commit();		
 		return list.get(0);
 	}
+	
+	// Sending values from robot to database
 	@Path("/sendstatistics")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -98,6 +102,7 @@ public class RobotService {
 		return statistics;
 	}
 	
+	// Getting values from database that are sent by robot
 	@Path("/getstatistics")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
