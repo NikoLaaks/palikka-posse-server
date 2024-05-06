@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/*
+ * This class was automatically generated, does not serve any purpose in the project.
+*/
+
 @WebServlet(
     name = "HelloAppEngine",
     urlPatterns = {"/hello"}
