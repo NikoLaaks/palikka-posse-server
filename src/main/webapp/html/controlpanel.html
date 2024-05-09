@@ -137,6 +137,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 
 function checkKey(e) {
+	// Add 10 power units to both motors when the keycode returned is W
+	// If the motor values are different from eachother, make the values same by counting the average
+	// This makes the robot to straighten its path
 	if (e.code == "KeyW") {
 		if (latestResponse.motorapower == latestResponse.motorbpower) {
 			const newMotorAPower = latestResponse.motorapower + 10;
@@ -149,18 +152,21 @@ function checkKey(e) {
 		
 	}
 	
+	// Subtract 10 power units from both motors
 	if (e.code == "KeyS") {
 		const newMotorAPower = latestResponse.motorapower - 10;
 		const newMotorBPower = latestResponse.motorbpower - 10;
 		setPower(newMotorAPower, newMotorBPower);
 	}
 	
+	// Subtract 5 from left motor and add 5 to right motor - makes the robot turn left
 	if (e.code == "KeyA") {
 		const newMotorAPower = latestResponse.motorapower - 5;
 		const newMotorBPower = latestResponse.motorbpower + 5;
 		setPower(newMotorAPower, newMotorBPower);
 	}
 	
+	// Subtract 5 from right motor and add 5 to left motor - makes the robot turn right
 	if (e.code == "KeyD") {
 		const newMotorAPower = latestResponse.motorapower + 5;
 		const newMotorBPower = latestResponse.motorbpower - 5;
